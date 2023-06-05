@@ -22,7 +22,10 @@ In terminal and from directory `the-pile-diversity`
 
 #### use in terminal:
 <!--- Make code --->
-    python diversity.py email [-h] [-v] [-n JOURNAL_NAME] [-i ID] [-c] [-m] [--start_year START_YEAR] [--end_year END_YEAR] 
+    cd src
+    python journalDiversity.py email journal_name 
+        [-h] [-v] [-c] [-a] [-m] [-r] [--start_year START_YEAR] [--end_year END_YEAR]
+                           
 
 #### positional arguments:
   `email`                   the reply-to email for OpenAlex API calls
@@ -49,8 +52,8 @@ In terminal and from directory `the-pile-diversity`
 ### Informal Citations
 The Pile:
 
+    Gao, L., Biderman, S., Black, S., Golding, L., Hoppe, T., Foster, C., … Leahy, C. (2020). The Pile: An 800GB Dataset of Diverse Text for Language Modeling. ArXiv [Cs.CL]. Retrieved from http://arxiv.org/abs/2101.00027
 
-    
 OpenAlex:
 
     Priem, J., Piwowar, H., & Orr, R. (2022). OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts. ArXiv. https://arxiv.org/abs/2205.01833
