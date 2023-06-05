@@ -49,7 +49,7 @@ In terminal and from directory `the-pile-diversity`
   `--end_year END_YEAR`     filter publications by this latest year (inclusive)
 
 
-### Informal Citations
+### Citations
 The Pile:
 
     Gao, L., Biderman, S., Black, S., Golding, L., Hoppe, T., Foster, C., … Leahy, C. (2020). The Pile: An 800GB Dataset of Diverse Text for Language Modeling. ArXiv [Cs.CL]. Retrieved from http://arxiv.org/abs/2101.00027
