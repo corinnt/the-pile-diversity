@@ -29,6 +29,7 @@ In terminal and from directory `the-pile-diversity`
 
 #### positional arguments:
   `email`                   the reply-to email for OpenAlex API calls
+
   `journal_name`            name of journal or source to search for
 
 
@@ -41,6 +42,7 @@ In terminal and from directory `the-pile-diversity`
   `-c`, `--write_csv`       include to write csv of data
 
   `-m`, `--write_maps`      include to plot locations of affiliated institutions
+  
   `-a`, `--write_abstracts`
                             include to write abstracts of all works to csv
 
