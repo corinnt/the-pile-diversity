@@ -31,6 +31,7 @@ In terminal and from directory `the-pile-diversity`
   `email`                   the reply-to email for OpenAlex API calls
   `journal_name`            name of journal or source to search for
 
+
 #### options:
 
   `-h`, `--help`            show this help message and exit
