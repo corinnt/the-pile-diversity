@@ -1,4 +1,4 @@
-# Work in progress: Diversity in Gesta
+# Work in progress: Diversity in The Pile
 
 Current functionality: Maps the locations of institutions with which authors published in the journal are affiliated.
 
@@ -46,11 +46,16 @@ In terminal and from directory `the-pile-diversity`
   `--end_year END_YEAR`     filter publications by this latest year (inclusive)
 
 
-Thank you to OpenAlex:
+### Informal Citations
+The Pile:
+
+
+    
+OpenAlex:
 
     Priem, J., Piwowar, H., & Orr, R. (2022). OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts. ArXiv. https://arxiv.org/abs/2205.01833
 
-And to PyGMT:
+PyGMT:
 
     Wessel, P., Luis, J. F., Uieda, L., Scharroo, R., Wobbe, F., Smith, W. H. F., & Tian, D. (2019). The Generic Mapping Tools version 6. Geochemistry, Geophysics, Geosystems, 20, 5556– 5564. https://doi.org/10.1029/2019GC008515
 
