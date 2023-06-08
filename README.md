@@ -51,6 +51,8 @@ In terminal and from directory `the-pile-diversity`
 
   `--end_year END_YEAR`     filter publications by this latest year (inclusive)
 
+  `-r`, `--restore_saved`   include to display saved/pickled data from last run
+
 
 ### Citations
 The Pile:
@@ -67,9 +69,9 @@ PyGMT:
 
 ## To-Do
 
--  add sampling functionality as an option to not try to deal with all data from the huge sources
+- add sampling functionality as an option to not try to deal with all data from the huge sources
 - make protocol for what fields to query to get locations if they don't have the coordinates?
-    ie get institution ID, else get institution name and country, else get author name and country and year?
+    ie get institution ID, else get last known institution
 - Genderize API to get gender stats from list of authors
 - swap print statements for progress bar
 
