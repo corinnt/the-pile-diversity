@@ -27,5 +27,5 @@ def map_points(df, name):
         #pen="gray40",
         transparency=45
     )
-    fig.savefig("../data/" + name + ".jpg")
+    fig.savefig("../output/" + name + ".png")
     

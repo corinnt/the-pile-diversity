@@ -27,24 +27,6 @@ def parse_work(work, data):
     else:
         data.authors.append('NA')
 
-    concepts_list = work['concepts']
-    if concepts_list:
-        parse_concepts(concepts_list, data)
-    else:
-        data.concepts.append('NA')
-
-    
-        
-def parse_concepts(concepts, data):
-    """
-        :param concepts: list of dehydrated Concept objects from OpenAlex
-        :param data: partially full Data object
-    """
-    concept_string = ""
-    for concept in concepts:
-        if concept['score'] > 0.3:
-            concept_string += concept['display_name'] + " "
-    data.concepts.append(concept_string)
 
 def parse_authorship(authorships, data):
     """
@@ -55,12 +37,8 @@ def parse_authorship(authorships, data):
     for authorship in authorships:
         author_string += authorship['author']['display_name'] + "; "
         for institution in authorship['institutions']:
-            code = institution['country_code']
             id = institution['id']
             if id: parse_geodata(id, data)
-            increment(code, data.countries)
-            increment(id, data.institutions)
-            data.institution_ids.add(id)
     data.authors.append(author_string)
 
 def parse_geodata(id, data):
@@ -78,7 +56,6 @@ def parse_geodata(id, data):
             long = results['geo']['longitude']
             data.latitudes.append(lat)
             data.longitudes.append(long)
-            increment((long, lat), data.coordinates)
     except requests.exceptions.RequestException as e:
         print("Error occurred:", e)
     except ValueError as e:

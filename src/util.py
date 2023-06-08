@@ -1,5 +1,11 @@
 import pickle
 
+VERBOSE = False
+def info(text):
+    global VERBOSE
+    if VERBOSE:
+        print(text)
+        
 def increment(key, dict):
     if key in dict:
         dict[key] += 1
