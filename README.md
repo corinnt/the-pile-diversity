@@ -71,7 +71,7 @@ PyGMT:
 
 - add sampling functionality as an option to not try to deal with all data from the huge sources
 - make protocol for what fields to query to get locations if they don't have the coordinates?
-    ie get institution ID, else get last known institution
+    ie get institution ID, else get last known institution (have implemented in gesta-diversity)
 - Genderize API to get gender stats from list of authors
 - swap print statements for progress bar
 
