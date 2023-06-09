@@ -74,10 +74,12 @@ PyGMT:
 ## To-Do
 
 - add sampling functionality as an option to not try to deal with all data from the huge sources
+    - how large of a sample is considered valid/rigorous enough?
 - make protocol for what fields to query to get locations if they don't have the coordinates?
     ie get institution ID, else get last known institution (have implemented in gesta-diversity)
 - Genderize API to get gender stats from list of authors
 - swap print statements for progress bar
+- alternate data visualizations: histogram by country for locations? once have gender, gender vs. country plot somehow?
 
 <!--- NOTES --->
 <!---- issn_l = "0016-920X" --->
