@@ -1,14 +1,23 @@
 import pygmt
+import util
 
 def map_points(df, name): 
+    """ Maps longitude and latitude points on a map of the globe
+
+        :param df: dataframe with cols longitude, latitude, and counts (for repeats) 
+        :param name: name for the map PNG in the output folder
+        
+    alternate region based on data, but globe looks cleaner
     region = [
         df.longitude.min() - 1,
         df.longitude.max() + 1,
-        df.latitude.min() - 5,
-        df.latitude.max() + 10,
+        df.latitude.min() - 1,
+        df.latitude.max() + 1,
         ]
-    #region = [-180, 180, -60, 80] # frame all major continents
-    print(df.head())
+    """
+    region = [-180, 180, -60, 80] # frame all major continents
+    util.info(df.head())
+    
 
     fig = pygmt.Figure()
     fig.basemap(region=region, projection="M8i", frame=True)
