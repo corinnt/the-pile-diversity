@@ -3,7 +3,8 @@
 Current functionality: 
 - Writes a CSV file of all authors, titles, and affiliated institutions of the Works in a source
 - Maps the locations of institutions with which authors published in the journal are affiliated
-Note: Cannot parse more than 10,000 Works at a time due to OpenAlex limits
+
+**Note:** Cannot parse more than 10,000 Works at a time due to OpenAlex limits
 
 *example to generate maps of publications in Gesta, a leading peer-reviewed journal in art history, starting in 1999:*
     
