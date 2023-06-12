@@ -11,11 +11,11 @@ import util
 class Data():
     def __init__(self, args):
         self.titles = []
-        self.authors = []
+        self.authors = [] #eventually should use for Genderize
         self.years = []
         self.abstracts = []
 
-        self.latitudes = []
+        self.latitudes = [] # currently just from any institution listed w/ the Work -> shift to author's most recent?
         self.longitudes = []
 
         self.config = args
@@ -116,10 +116,11 @@ def iterate_search(args, data):
         if (page % 5 == 0):
             util.info("on page " + str(page))
 
-def display_data(data):
-    """
+def display_data(data, data_name="data"):
+    """ Given populated Data object, displays collected data 
+        script args of -c or -m -> CSV of data or maps the institutions of the authors
         :param data: filled Data object 
-        :param write_csv: 
+        :param data_name: base name for output csv or png 
     """
     dict = {'author' : data.authors, 'title' : data.titles, 'year' : data.years}
     if data.config.write_abstracts: dict['abstract'] = data.abstracts
@@ -128,14 +129,14 @@ def display_data(data):
     
     if data.config.csv: 
         util.info("writing csv...")
-        df.to_csv("../output/data.csv")
+        df.to_csv("../output/" + data_name +".csv")
 
     if data.config.maps:
         util.info("mapping points...")
         map_dict = {'latitude' : data.latitudes, 'longitude' : data.longitudes} 
         map_df = pd.DataFrame(map_dict)
         df = map_df.groupby(['longitude', 'latitude']).size().reset_index(name='counts')
-        map_points(df, 'world')
+        map_points(df, "world-" + data_name + "-points" )
         util.info("maps created!")
 
 if __name__ == "__main__":
