@@ -19,7 +19,7 @@ class Data():
         self.longitudes = []
 
         self.config = args
-        self.id = get_journal_id(args)
+        self.id, self.num_works = get_journal_id(args.journal_name)
 
 def parseArguments():
     parser = argparse.ArgumentParser()
@@ -52,7 +52,7 @@ def main(args):
 def get_journal_id(args):
     """ Returns the OpenAlex Work ID of the top result matching the input journal name
     :param args: parsed user argument object
-    :returns str: ID of journal
+    :returns str, int: ID of journal, count of Works in source
     """
     url = "https://api.openalex.org/sources?search=" + args.journal_name + '&mailto=' + args.email
     results = {}
@@ -62,20 +62,20 @@ def get_journal_id(args):
         results = response.json()
     except requests.exceptions.RequestException as e:
         print("Error occurred:", e)
-        return ""
+        return "", 0
     except ValueError as e:
         print("Error decoding JSON:", e)
-        return ""
+        return "", 0
     
     if len(results['results']) > 0:
         top_result = results['results'][0]
 
     if 'id' in top_result: 
         util.info("got id of " + top_result['display_name']) # POSSBUG: multiple journals of same name
-        return top_result['id']
+        return top_result['id'], top_result['works_count']
     else: 
         print("No results found.")
-        return ""
+        return "", 0
 
 def iterate_search(args, data):
     """ Iterates through all search results for Works by the given source and fitting other criteria
@@ -94,7 +94,6 @@ def iterate_search(args, data):
     has_more_pages = True
     fewer_than_10k_results = True
 
-    #for page in tqdm(range(int(data.num_works/25))):
     while has_more_pages and fewer_than_10k_results:
         # set page value and request page from OpenAlex
         url = works_query_with_page.format(page)
@@ -102,7 +101,7 @@ def iterate_search(args, data):
             
         # loop through page of results
         results = page_with_results['results']
-        for i, work in enumerate(results):
+        for work in results:
             title = work['display_name']
             if util.valid_title(title):
                 parseDetails.parse_work(work, data)
@@ -114,7 +113,7 @@ def iterate_search(args, data):
         has_more_pages = len(results) == page_size
         fewer_than_10k_results = page_size * page <= 10000
         if (page % 5 == 0):
-            util.info("on page " + str(page))
+            util.info("parsing page " + str(page))
 
 def display_data(data, data_name="data"):
     """ Given populated Data object, displays collected data 
