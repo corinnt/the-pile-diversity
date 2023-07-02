@@ -1,4 +1,3 @@
-import requests
 import pandas as pd 
 from tqdm import tqdm
 import argparse
@@ -7,24 +6,11 @@ from concurrent.futures import ThreadPoolExecutor, wait
 
 import util
 
-def main(args): 
-    df = pd.read_csv("data/gene_ids_and_symbols.csv")
-    print('Original dataframe: ')
-    print(df.head())
-    biotypes = iterate_ids(df['GENEID'])
-    try:
-        df['BIOTYPES'] = biotypes
-        print("Writing csv...")
-        df.to_csv('data/with_gene_functions.csv', mode='w', index = False, header=True)
-    except:
-        new_df = pd.DataFrame(biotypes)
-        new_df.to_csv('data/backup.csv', mode='w', index = False, header=True)
-        
 def iterate_ids(all_IDs):
     """ 
-        :param all_IDs: list of all IDs
+        :param all_IDs: list of all OpenAlex Institution IDs
     """
-    print('Iterating through genes...')        
+    print('Iterating through Institution IDs...')        
 
     BATCH_SIZE = 50
     MAX_WORKERS = 15 # only 10?
@@ -59,19 +45,3 @@ def process_batch(id_batch, index, data):
 
     return institutions, index
     # TODO: fix batch handling - need to reorder list?
-
-    
-def parseArgs():
-    parser = argparse.ArgumentParser(description='Model to convert chip signal images to sequences of called bases')
-    #parser.add_argument('path', help='Path to top level directory of images')
-    #parser.add_argument('-c', '--clear', action='store_true', help='Include to clear saved folder')
-    parser.add_argument('-t', '--test', action='store', help='Follow by a gene ID to retrieve biotype for')
-    parser.add_argument('-v', '--verbose', action='store_true', help='Include to store quality control and intermediate images')
-    args = parser.parse_args()
-    #if args.verbose:
-    #    util.VERBOSE = True
-    return args
-
-if __name__ == '__main__':
-    args = parseArgs()
-    main(args)
