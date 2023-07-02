@@ -5,6 +5,7 @@ import pandas as pd
 #from tqdm import tqdm
 
 import parseDetails
+import multiRequest
 from map import map_points
 import util
 
@@ -17,6 +18,7 @@ class Data():
 
         self.latitudes = [] # currently just from any institution listed w/ the Work -> shift to author's most recent?
         self.longitudes = []
+        self.institution_ids = []
 
         self.config = args
         self.id, self.num_works = get_journal_id(args)
@@ -44,6 +46,7 @@ def main(args):
     else:
         data = Data(args)
         if not data.id:
+            print("Couldn't retrieve ID of searched journal")
             return 
         iterate_search(args, data)
         util.pickle_data(data)
@@ -55,17 +58,7 @@ def get_journal_id(args):
     :returns str, int: ID of journal, count of Works in source
     """
     url = "https://api.openalex.org/sources?search=" + args.journal_name + '&mailto=' + args.email
-    results = {}
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-        results = response.json()
-    except requests.exceptions.RequestException as e:
-        print("Error occurred:", e)
-        return "", 0
-    except ValueError as e:
-        print("Error decoding JSON:", e)
-        return "", 0
+    results = util.api_request(url)
     
     if len(results['results']) > 0:
         top_result = results['results'][0]
@@ -77,7 +70,7 @@ def get_journal_id(args):
         print("No results found.")
         return "", 0
 
-def iterate_search(args, data):
+def iterate_search(data):
     """ Iterates through all search results for Works by the given source and fitting other criteria
     :param source_id: string - OpenAlex ID of the source to analyze
     :param data: empty Data object
@@ -96,7 +89,7 @@ def iterate_search(args, data):
     field_selection = 'select=' + fields
     filtering = 'filter=' + search_filters
 
-    works_query_with_page = 'https://api.openalex.org/works?' + sampling + '&' + field_selection + '&' + filtering + '&page={}&mailto=' + args.email
+    works_query_with_page = 'https://api.openalex.org/works?' + sampling + '&' + field_selection + '&' + filtering + '&page={}&mailto=' + data.config.email
     page = 1
     has_more_pages = True
     fewer_than_10k_results = True
@@ -122,6 +115,22 @@ def iterate_search(args, data):
         if (page % 5 == 0):
             util.info("parsing page " + str(page))
 
+def iterate_geodata(data):
+    institutions = multiRequest.iterate_ids(data.institution_ids)
+    for institution in institutions:
+        mapped = False
+        if not mapped and institution:              # will add longitude and latitude of first institution with geodata
+                mapped, institution_name = parseDetails.parse_geodata(institution, data)
+            #institution_names.append(institution_name)
+        # TODO: fix to be 
+        author_id = authorship['author']['id']
+
+        if not mapped and author_id:
+            mapped, institution_name = parseDetails.alternate_geodata(author_id, data)
+
+        author_names.append(authorship['author']['display_name'])
+
+       
 def display_data(data, data_name="data"):
     """ Given populated Data object, displays collected data 
         script args of -c or -m -> CSV of data or maps the institutions of the authors

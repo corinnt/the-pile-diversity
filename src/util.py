@@ -1,4 +1,5 @@
 import pickle
+import requests
 
 VERBOSE = False
 def info(text):
@@ -53,3 +54,18 @@ def decode_inverted(inverted_index, data):
     words = [word[0] for word in sorted_tuples]
     words = ' '.join(words)
     data.abstracts.append(words)
+
+def api_request(url):
+    """ Given an API request URL, handles possible exceptions and returns the results
+    """
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+        results = response.json()
+    except requests.exceptions.RequestException as e:
+        print("Error occurred:", e)
+        return None
+    except ValueError as e:
+        print("Error decoding JSON:", e)
+        return None
+    return results
