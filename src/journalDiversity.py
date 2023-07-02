@@ -19,7 +19,7 @@ class Data():
         self.longitudes = []
 
         self.config = args
-        self.id, self.num_works = get_journal_id(args.journal_name)
+        self.id, self.num_works = get_journal_id(args)
 
 def parseArguments():
     parser = argparse.ArgumentParser()
@@ -89,7 +89,14 @@ def iterate_search(args, data):
     if args.end_year: 
         search_filters += ',publication_year:<' + str(args.end_year + 1)
 
-    works_query_with_page = 'https://api.openalex.org/works?select=' + fields + '&filter=' + search_filters + '&page={}&mailto=' + args.email
+    sample_size = str(100) # max of 10,000
+    seed = str(42)
+
+    sampling = 'sample='+ sample_size + '&seed='+ seed
+    field_selection = 'select=' + fields
+    filtering = 'filter=' + search_filters
+
+    works_query_with_page = 'https://api.openalex.org/works?' + sampling + '&' + field_selection + '&' + filtering + '&page={}&mailto=' + args.email
     page = 1
     has_more_pages = True
     fewer_than_10k_results = True
